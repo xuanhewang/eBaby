@@ -1,17 +1,11 @@
 /**
  * Created by wang on 17/12/23.
  */
-const User = require('../config/db');
+const user = require('../models/user');
 
-const findAllUser = () => {
-	return new Promise((resolve, reject) => {
-		User.find({}, (err, doc) => {
-			if (err) {
-				reject(err);
-			}
-			resolve(doc);
-		});
-	});
+const findAllUser = async (ctx, next) => {
+	let allUsers = await user.findAllUser();
+	ctx.body = allUsers
 };
 
 module.exports = {
