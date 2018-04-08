@@ -16,8 +16,8 @@ module.exports = async (ctx, next) => {
     //     connection: 'close',
     //     host: 'localhost:8888' } }
 
-    if (ctx.request.header['authorization']) {
-        let token = ctx.request.header['authorization'].split(' ')[1];
+    if (ctx.request.header['token']) {
+        let token = ctx.request.header['token'].split(' ')[1];
         //解码token
         let decoded = jwt.decode(token, 'sinner77');
         //console.log(decoded);的输出 ：{ user_id: '123123123', iat: 1494405235, exp: 1494405235 }

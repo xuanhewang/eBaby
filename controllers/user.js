@@ -54,6 +54,7 @@ const Login = async ( ctx ) => {
         console.log('密码错误!');
         ctx.status = 200;
         ctx.body = {
+            msg: '密码错误',
             success: false
         };
     }

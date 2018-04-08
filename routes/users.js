@@ -1,9 +1,10 @@
 const router = require('koa-router')();
+const checkToken = require('../middleware/checkToken')
 const UserController = require('../controllers/user');
 
 router.prefix('/users');
 
-router.get('/', UserController.findAllUser);
+router.post('/',checkToken, UserController.findAllUser);
 
 router.post('/login', UserController.Login)
 router.post('/register', UserController.Reg)
