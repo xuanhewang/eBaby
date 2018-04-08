@@ -1,4 +1,4 @@
-const User = require('../config/db').user;// 引入user的表结构
+const User = require('../config/db').userModel;// 引入user的表结构
 
 const findAllUser = ()=>{
 	return new Promise((resolve, reject) => {

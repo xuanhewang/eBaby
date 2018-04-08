@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/eBaby');
+const userModel = require('../schema/user')
+const adminModel = require('../schema/admin')
+mongoose.connect('mongodb://106.15.92.48:27017/Baby');
 
-let db = mongoose.connection;
+const db = mongoose.connection;
 
 mongoose.Promise = global.Promise;
 
@@ -13,19 +15,11 @@ db.on('open', () => {
 	console.log('连接数据库成功')
 });
 
-const userSchema = mongoose.Schema({
-	username: String,
-	password: String,
-	level: Number,
-	age: Number,
-	workingLife: Number,
-	token: String,
-	createTime: Date
-});
 
-const model = {
-	user: mongoose.model('user', userSchema)
+module.exports = {
+	userModel,
+	adminModel,
 };
 
-module.exports = model;
+
 

@@ -5,6 +5,7 @@ const user = require('../models/user');
 
 const findAllUser = async (ctx, next) => {
 	let allUsers = await user.findAllUser();
+	console.log(allUsers)
 	ctx.body = allUsers
 };
 
