@@ -5,6 +5,9 @@ router.prefix('/users');
 
 router.get('/', UserController.findAllUser);
 
+router.post('/login', UserController.Login)
+router.post('/register', UserController.Reg)
+
 router.get('/bar', function (ctx, next) {
   ctx.body = 'this is a users/bar response'
 });

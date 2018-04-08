@@ -1,14 +1,103 @@
 /**
  * Created by wang on 17/12/23.
  */
-const user = require('../models/user');
+const User = require('../models/user');
+const moment = require('moment');
+const objectIdToTimestamp = require('objectid-to-timestamp');
+//用于密码加密
+const sha1 = require('sha1');
+//createToken
+const createToken = require('../middleware/createToken.js');
 
 const findAllUser = async (ctx, next) => {
-	let allUsers = await user.findAllUser();
+	let allUsers = await User.findAllUser();
 	console.log(allUsers)
 	ctx.body = allUsers
 };
 
+const Login = async ( ctx ) => {
+    //拿到账号和密码
+    let username = ctx.request.body.username;
+    let password = sha1(ctx.request.body.password);
+
+    let doc = await User.findUser(username);
+    if(!doc){
+        console.log('检查到用户名不存在');
+        ctx.status = 200;
+        ctx.body = {
+            info: false
+        }
+    }else if(doc.password === password){
+        console.log('密码一致!');
+
+        //生成一个新的token,并存到数据库
+        let token = createToken(username);
+        console.log(token);
+        doc.token = token;
+        await new Promise((resolve, reject) => {
+            doc.save((err) => {
+                if(err){
+                    reject(err);
+                }
+                resolve();
+            });
+        });
+
+        ctx.status = 200;
+        ctx.body = {
+            success: true,
+            username,
+            token, //登录成功要创建一个新的token,应该存入数据库
+            create_time: doc.create_time
+        };
+    }else{
+        console.log('密码错误!');
+        ctx.status = 200;
+        ctx.body = {
+            success: false
+        };
+    }
+};
+
+//注册
+const Reg = async ( ctx ) => {
+    let user = new User.user({
+        username: ctx.request.body.username,
+        password: sha1(ctx.request.body.password), //加密
+        token: createToken(this.username) //创建token并存入数据库
+    });
+    console.log(user)
+    //将objectid转换为用户创建时间(可以不用)
+    user.create_time = moment(objectIdToTimestamp(user._id)).format('YYYY-MM-DD HH:mm:ss');
+
+    let doc = await User.findUser(user.username);
+    if(doc){
+        console.log('用户名已经存在');
+        ctx.status = 200;
+        ctx.body = {
+        	status: 200,
+            success: false
+        };
+    }else{
+        await new Promise((resolve, reject) => {
+            user.save((err) => {
+                if(err){
+                    reject(err);
+                }
+                resolve();
+            });
+        });
+        console.log('注册成功');
+        ctx.status = 200;
+        ctx.body = {
+        	status: 200,
+            success: true
+        }
+    }
+};
+
 module.exports = {
-	findAllUser
+	findAllUser,
+	Login,
+	Reg
 };
