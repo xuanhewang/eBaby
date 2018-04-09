@@ -4,7 +4,7 @@ const UserController = require('../controllers/user');
 
 router.prefix('/users');
 
-router.post('/',checkToken, UserController.findAllUser);
+router.get('/', UserController.findAllUser);
 
 router.post('/login', UserController.Login)
 router.post('/register', UserController.Reg)

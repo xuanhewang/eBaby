@@ -1,5 +1,6 @@
 const Koa = require('koa')
 const app = new Koa()
+const cors = require('koa2-cors');
 const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
@@ -8,6 +9,7 @@ const logger = require('koa-logger')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
+const admin = require('./routes/admin')
 
 // error handler
 onerror(app)
@@ -24,6 +26,21 @@ app.use(views(__dirname + '/views', {
 	extension: 'pug'
 }))
 
+app.use(cors(
+    {
+        origin: function (ctx) {
+            if (ctx.url === '/test') {
+                return "*"; // 允许来自所有域名请求
+            }
+            return '*';
+        },
+        exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+        maxAge: 5,
+        credentials: true,
+        allowMethods: ['GET', 'POST', 'DELETE'],
+        allowHeaders: ['Content-Type', 'Authorization', 'Accept','Origin', 'X-Requested-With', 'token']
+    }
+))
 // logger
 app.use(async (ctx, next) => {
 	const start = new Date()
@@ -35,6 +52,7 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(admin.routes(), admin.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

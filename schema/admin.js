@@ -5,12 +5,11 @@ const adminSchema = mongoose.Schema({
     password: String,
     isSuper: Boolean,
     token: String,
-    createTime: Date,
-    updateTime: Date
+    create_time: Date
 });
 
 const adminModel = {
-    user: mongoose.model('admin', adminSchema)
+    admin: mongoose.model('admin', adminSchema)
 };
 
 module.exports = adminModel;
