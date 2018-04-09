@@ -18,6 +18,18 @@ const findAdmin = (username) => {
         });
     });
 };
+
+const findAdminById = (id) => {
+    return new Promise((resolve, reject) => {
+        admin.findOne({ _id: id }, (err, doc) => {
+            if(err){
+                reject(err);
+            }
+            resolve(doc);
+        });
+    });
+};
+
 const findAllAdmin = ()=>{
     return new Promise((resolve, reject) => {
         admin.find({}, (err, doc) => {
@@ -29,8 +41,22 @@ const findAllAdmin = ()=>{
     });
 };
 
+const delAdmin = function(id){
+    return new Promise(( resolve, reject) => {
+        admin.findOneAndRemove({ _id: id }, err => {
+            if(err){
+                reject(err);
+            }
+            console.log('删除用户成功');
+            resolve();
+        });
+    });
+};
+
 module.exports = {
     admin,
     findAllAdmin,
-    findAdmin
+    findAdmin,
+    delAdmin,
+    findAdminById
 };

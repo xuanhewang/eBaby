@@ -5,6 +5,7 @@ const adminController = require('../controllers/admin');
 router.prefix('/admin');
 
 router.get('/findAllAdmin',adminController.findAllAdmin);
+router.post('/delAdmin',adminController.delAdmin);
 
 router.post('/login', adminController.Login)
 router.post('/register', adminController.Reg)
