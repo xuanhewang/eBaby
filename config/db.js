@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const userModel = require('../schema/user')
 const adminModel = require('../schema/admin').admin
+const matronModel = require('../schema/matron').matron
 mongoose.connect('mongodb://106.15.92.48:27017/Baby');
 
 const db = mongoose.connection;
@@ -19,6 +20,7 @@ db.on('open', () => {
 module.exports = {
 	userModel,
     adminModel,
+    matronModel
 };
 
 
