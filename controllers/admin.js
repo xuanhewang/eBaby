@@ -11,8 +11,9 @@ const sha1 = require('sha1');
 const createToken = require('../middleware/createToken.js');
 
 const findAllAdmin = async (ctx, next) => {
-    let allAdmin = await admin.findAllAdmin();
-    console.log(allAdmin)
+    let pageNum = parseInt(ctx.request.body.pageNum)
+    let pageSize = parseInt(ctx.request.body.pageSize)
+    let allAdmin = await admin.findAllAdmin(pageNum, pageSize);
     ctx.body = {
         success: true,
         data: allAdmin

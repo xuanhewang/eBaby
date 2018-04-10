@@ -30,14 +30,14 @@ const findAdminById = (id) => {
     });
 };
 
-const findAllAdmin = ()=>{
+const findAllAdmin = (pageNum, pageSize)=>{
     return new Promise((resolve, reject) => {
         admin.find({}, (err, doc) => {
             if (err) {
                 reject(err);
             }
             resolve(doc);
-        });
+        }).skip(pageNum).limit(pageSize);
     });
 };
 
