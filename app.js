@@ -10,6 +10,7 @@ const logger = require('koa-logger')
 const index = require('./routes/index')
 const users = require('./routes/users')
 const admin = require('./routes/admin')
+const matron = require('./routes/matron')
 
 // error handler
 onerror(app)
@@ -38,7 +39,7 @@ app.use(cors(
         maxAge: 5,
         credentials: true,
         allowMethods: ['GET', 'POST', 'DELETE'],
-        allowHeaders: ['Content-Type', 'Authorization', 'Accept','Origin', 'X-Requested-With', 'token']
+        allowHeaders: ['Content-Type', 'Authorization', 'Accept','Origin', 'X-Requested-With', 'token', 'username']
     }
 ))
 // logger
@@ -53,6 +54,7 @@ app.use(async (ctx, next) => {
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(admin.routes(), admin.allowedMethods())
+app.use(matron.routes(), matron.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
