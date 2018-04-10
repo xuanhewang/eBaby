@@ -2,7 +2,7 @@
  * Created by wang on 17/12/23.
  */
 // const ObjectId = require('mongodb').ObjectId;
-const admin = require('../models/admin');
+const matron = require('../models/matron');
 const request = require('request')
 const moment = require('moment');
 const objectIdToTimestamp = require('objectid-to-timestamp');
@@ -148,13 +148,46 @@ const Reg = async ( ctx ) => {
 };
 
 const spider = async (ctx) => {
-    request({url: 'http://www.yuesaohome.cn/Ajax/NPageNures.ashx', form: {PageNum: 1}}, function (err, res, body) {
-        if (err) {
-            console.log(err)
-            return false
-        }
-        console.log(res)
-    })
+    let PageNum = 1
+    function spider(PageNum) {
+        request({url: 'http://www.yuesaohome.cn/Ajax/NPageNures.ashx', form: {PageNum: PageNum}}, function (err, res, body) {
+            if (err) {
+                console.log(err)
+                return false
+            }
+            let data = JSON.parse(res.body).rows
+            for (let i in data){
+                let user = new matron.matron({
+                    username: data[i].id,
+                    password: sha1(data[i].id),
+                    token: createToken(data[i].id),
+                    name: data[i].nursename,
+                    age: data[i].age,
+                    mobile: data[i].mobile,
+                    experience: data[i].experience,
+                    price: data[i].price,
+                    specialty: data[i].specialty,
+                    sex: data[i].sex,
+                    isworking: data[i].iswork,
+                    hometown: data[i].hometown,
+                    personalinfo: data[i].personalinfo,
+                    imageurl: data[i].imageurl
+                })
+                user.save((err) => {
+                    if(err){
+                        console.log(err)
+                        return
+                    }
+                    console.log('入库成功')
+                })
+            }
+            setTimeout(function () {
+                PageNum += 1
+                spider(PageNum)
+            }, 5000)
+        })
+    }
+    spider(PageNum)
 }
 
 module.exports = {

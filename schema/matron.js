@@ -5,11 +5,21 @@ const matronSchema = mongoose.Schema({
     password: String,
     token: String,
     create_time: Date,
-
+    name: String,
+    age: String,
+    mobile: String,
+    experience: String,
+    price: String,
+    specialty: String,
+    sex: String,
+    isworking: String,
+    hometown: String,
+    personalinfo: String,
+    imageurl: String
 });
 
-const motronModel = {
-    motron: mongoose.model('admin', matronSchema)
+const matronModel = {
+    matron: mongoose.model('matron', matronSchema)
 };
 
-module.exports = motronModel;
+module.exports = matronModel;
