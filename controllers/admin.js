@@ -38,18 +38,20 @@ const delAdmin = async (ctx, next) =>{
                 msg: '不是超级管理员'
             }
         } else {
-            let doc = await admin.delAdmin(id)
-            if (doc) {
-                ctx.body = {
-                    success: true,
-                    msg: '删除成功'
-                }
-            } else {
-                ctx.body = {
-                    success: false,
-                    msg: '删除失败'
-                }
-            }
+        	try {
+		        for(let i in id){
+			        await admin.delAdmin(id[i])
+		        }
+		        ctx.body = {
+			        success: true,
+			        msg: '删除成功'
+		        }
+	        } catch (err){
+		        ctx.body = {
+			        success: false,
+			        msg: '删除失败'
+		        }
+	        }
         }
     }
 }

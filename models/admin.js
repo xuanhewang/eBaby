@@ -48,7 +48,7 @@ const delAdmin = function(id){
                 reject(err);
             }
             console.log('删除用户成功');
-            resolve();
+            resolve(reject);
         });
     });
 };
