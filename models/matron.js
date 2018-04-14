@@ -37,7 +37,7 @@ const findAllMatron = (pageNum, pageSize)=>{
                 reject(err);
             }
             resolve(doc);
-        }).skip(pageNum).limit(pageSize);
+        }).skip(pageNum * pageSize).limit(pageSize);
     });
 };
 
