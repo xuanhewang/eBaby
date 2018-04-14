@@ -30,9 +30,6 @@ app.use(views(__dirname + '/views', {
 app.use(cors(
     {
         origin: function (ctx) {
-            if (ctx.url === '/test') {
-                return "*"; // 允许来自所有域名请求
-            }
             return '*';
         },
         exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],

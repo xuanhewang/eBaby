@@ -8,9 +8,9 @@ const sha1 = require('sha1');
 const createToken = require('../middleware/createToken.js');
 
 //根据用户名查找用户
-const findAdmin = (username) => {
+const findMatron = (username) => {
     return new Promise((resolve, reject) => {
-        admin.findOne({ username }, (err, doc) => {
+        matron.findOne({ username }, (err, doc) => {
             if(err){
                 reject(err);
             }
@@ -19,9 +19,9 @@ const findAdmin = (username) => {
     });
 };
 
-const findAdminById = (id) => {
+const findMatronById = (id) => {
     return new Promise((resolve, reject) => {
-        admin.findOne({ _id: id }, (err, doc) => {
+        matron.findOne({ _id: id }, (err, doc) => {
             if(err){
                 reject(err);
             }
@@ -30,33 +30,33 @@ const findAdminById = (id) => {
     });
 };
 
-const findAllAdmin = ()=>{
+const findAllMatron = (pageNum, pageSize)=>{
     return new Promise((resolve, reject) => {
-        admin.find({}, (err, doc) => {
+        matron.find({}, (err, doc) => {
             if (err) {
                 reject(err);
             }
             resolve(doc);
-        });
+        }).skip(pageNum).limit(pageSize);
     });
 };
 
-const delAdmin = function(id){
+const delMatron = function(id){
     return new Promise(( resolve, reject) => {
-        admin.findOneAndRemove({ _id: id }, err => {
+        matron.findOneAndRemove({ _id: id }, err => {
             if(err){
                 reject(err);
             }
             console.log('删除用户成功');
-            resolve();
+            resolve(reject);
         });
     });
 };
 
 module.exports = {
     matron,
-    findAllAdmin,
-    findAdmin,
-    delAdmin,
-    findAdminById
+    findAllMatron,
+    findMatron,
+    delMatron,
+    findMatronById
 };

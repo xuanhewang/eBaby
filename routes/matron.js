@@ -3,9 +3,10 @@ const checkToken = require('../middleware/checkToken')
 const matronController = require('../controllers/matron');
 
 router.prefix('/matron');
-
-router.get('/findAllAdmin',matronController.findAllAdmin);
-router.post('/delAdmin',matronController.delAdmin);
+//
+router.post('/findAllMatron',matronController.findAllMatron);
+router.post('/delMatron',matronController.delMatron);
+// router.post('/updateMatron',matronController.updateMatron);
 router.post('/spider',matronController.spider);
 
 router.post('/login', matronController.Login)

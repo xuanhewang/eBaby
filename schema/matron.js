@@ -12,7 +12,10 @@ const matronSchema = mongoose.Schema({
     price: String,
     specialty: String,
     sex: String,
-    isworking: String,
+    isworking: {
+        type: String,
+        default: '0'
+    },
     hometown: String,
     personalinfo: String,
     imageurl: String
