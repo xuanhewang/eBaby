@@ -5,6 +5,7 @@
 const matron = require('../models/matron');
 const request = require('request')
 const moment = require('moment');
+const fs = require('fs')
 const objectIdToTimestamp = require('objectid-to-timestamp');
 //用于密码加密
 const sha1 = require('sha1');
@@ -155,6 +156,14 @@ const Reg = async (ctx) => {
 };
 
 const spider = async (ctx) => {
+    // let doc = await matron.findAllMatron()
+    // for(let i in doc) {
+    //     let Name = doc[i].username
+    //     console.log(Name)
+    //     let res = await matron.matron.findOneAndUpdate(Name, {$set: {imageurl: `${Name}.jpg`}})
+    //     console.log(res)
+    //     // request(`http://www.yuesaohome.cn/${doc[i].imageurl}`).pipe(fs.createWriteStream(`./images/${imgName}.jpg`))
+    // }
     let PageNum = 1
 
     function spider(PageNum) {
@@ -182,7 +191,7 @@ const spider = async (ctx) => {
                     isworking: data[i].iswork,
                     hometown: data[i].hometown,
                     personalinfo: data[i].personalinfo,
-                    imageurl: data[i].imageurl
+                    imageurl: `${data[i].id}.jpg`
                 })
                 user.save((err) => {
                     if (err) {
@@ -195,7 +204,7 @@ const spider = async (ctx) => {
             setTimeout(function () {
                 PageNum += 1
                 spider(PageNum)
-            }, 5000)
+            }, 100)
         })
     }
 

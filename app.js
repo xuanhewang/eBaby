@@ -1,5 +1,6 @@
 const Koa = require('koa')
 const app = new Koa()
+const path = require('path')
 const cors = require('koa2-cors');
 const views = require('koa-views')
 const json = require('koa-json')
@@ -14,7 +15,6 @@ const matron = require('./routes/matron')
 
 // error handler
 onerror(app)
-
 // middlewares
 app.use(bodyparser({
 	enableTypes: ['json', 'form', 'text']
