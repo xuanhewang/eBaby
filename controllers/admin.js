@@ -24,54 +24,45 @@ const findAllAdmin = async (ctx, next) => {
     }
 };
 
-const delAdmin = async (ctx, next) =>{
+const delAdmin = async (ctx, next) => {
     // let id = ObjectId(ctx.request.body.id)
-    let adminName = ctx.request.headers.username
     let id = ctx.request.body.id
-    let adminNow = await admin.findAdmin(adminName)
     let adminInfo = await admin.findAdminById(id)
-    if(adminInfo.isSuper){
+    if (adminInfo.isSuper) {
         ctx.body = {
             success: false,
             msg: '超级管理员无法删除'
         }
     } else {
-        if (!adminNow.isSuper){
+        try {
+            for (let i in id) {
+                await admin.delAdmin(id[i])
+            }
+            ctx.body = {
+                success: true,
+                msg: '删除成功'
+            }
+        } catch (err) {
             ctx.body = {
                 success: false,
-                msg: '不是超级管理员'
+                msg: '删除失败'
             }
-        } else {
-        	try {
-		        for(let i in id){
-			        await admin.delAdmin(id[i])
-		        }
-		        ctx.body = {
-			        success: true,
-			        msg: '删除成功'
-		        }
-	        } catch (err){
-		        ctx.body = {
-			        success: false,
-			        msg: '删除失败'
-		        }
-	        }
         }
     }
 }
 
-const Login = async ( ctx ) => {
+const Login = async (ctx) => {
     //拿到账号和密码
     let username = ctx.request.body.username;
     let password = sha1(ctx.request.body.password);
     let doc = await admin.findAdmin(username);
-    if(!doc){
+    if (!doc) {
         console.log('检查到用户名不存在');
         ctx.status = 200;
         ctx.body = {
             info: false
         }
-    }else if(doc.password === password){
+    } else if (doc.password === password) {
         console.log('密码一致!');
         //生成一个新的token,并存到数据库
         let token = createToken(username);
@@ -79,7 +70,7 @@ const Login = async ( ctx ) => {
         doc.token = token;
         await new Promise((resolve, reject) => {
             doc.save((err) => {
-                if(err){
+                if (err) {
                     reject(err);
                 }
                 resolve();
@@ -91,7 +82,7 @@ const Login = async ( ctx ) => {
             username,
             token, //登录成功要创建一个新的token,应该存入数据库
         };
-    }else{
+    } else {
         console.log('密码错误!');
         ctx.status = 200;
         ctx.body = {
@@ -102,10 +93,10 @@ const Login = async ( ctx ) => {
 };
 
 //注册
-const Reg = async ( ctx ) => {
+const Reg = async (ctx) => {
     let adminName = ctx.request.headers.username
     let adminNow = await admin.findAdmin(adminName)
-    if (adminNow.isSuper){
+    if (adminNow.isSuper) {
         let user = new admin.admin({
             username: ctx.request.body.username,
             password: sha1(ctx.request.body.password), //加密
@@ -117,17 +108,17 @@ const Reg = async ( ctx ) => {
         user.create_time = moment(objectIdToTimestamp(user._id)).format('YYYY-MM-DD HH:mm:ss');
 
         let doc = await admin.findAdmin(user.username);
-        if(doc){
+        if (doc) {
             console.log('用户名已经存在');
             ctx.status = 200;
             ctx.body = {
                 status: 200,
                 success: false
             };
-        }else{
+        } else {
             await new Promise((resolve, reject) => {
                 user.save((err) => {
-                    if(err){
+                    if (err) {
                         reject(err);
                     }
                     resolve();

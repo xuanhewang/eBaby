@@ -30,32 +30,20 @@ const delMatron = async (ctx, next) => {
     // let id = ObjectId(ctx.request.body.id)
     let matronName = ctx.request.headers.username
     let id = ctx.request.body.id
-    let matronNow = await matron.findMatron(matronName)
-    let matronInfo = await matron.findMatronById(id)
-    if (matronInfo.isSuper) {
+    // let matronNow = await matron.findMatron(matronName)
+    // let matronInfo = await matron.findMatronById(id)
+    try {
+        for (let i in id) {
+            await matron.delMatron(id[i])
+        }
+        ctx.body = {
+            success: true,
+            msg: '删除成功'
+        }
+    } catch (err) {
         ctx.body = {
             success: false,
-            msg: '超级管理员无法删除'
-        }
-    } else {
-        if (!matronNow.isSuper) {
-            ctx.body = {
-                success: false,
-                msg: '不是超级管理员'
-            }
-        } else {
-            let doc = await matron.delmatron(id)
-            if (doc) {
-                ctx.body = {
-                    success: true,
-                    msg: '删除成功'
-                }
-            } else {
-                ctx.body = {
-                    success: false,
-                    msg: '删除失败'
-                }
-            }
+            msg: '删除失败'
         }
     }
 }
