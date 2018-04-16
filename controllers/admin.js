@@ -64,7 +64,6 @@ const Login = async ( ctx ) => {
     //拿到账号和密码
     let username = ctx.request.body.username;
     let password = sha1(ctx.request.body.password);
-
     let doc = await admin.findAdmin(username);
     if(!doc){
         console.log('检查到用户名不存在');
@@ -74,7 +73,6 @@ const Login = async ( ctx ) => {
         }
     }else if(doc.password === password){
         console.log('密码一致!');
-
         //生成一个新的token,并存到数据库
         let token = createToken(username);
         console.log(token);
@@ -87,7 +85,6 @@ const Login = async ( ctx ) => {
                 resolve();
             });
         });
-
         ctx.status = 200;
         ctx.body = {
             success: true,
