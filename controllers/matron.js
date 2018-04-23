@@ -6,6 +6,7 @@ const matron = require('../models/matron');
 const request = require('request')
 const moment = require('moment');
 const fs = require('fs')
+const multer = require('koa-multer');
 const objectIdToTimestamp = require('objectid-to-timestamp');
 //用于密码加密
 const sha1 = require('sha1');
@@ -94,8 +95,6 @@ const Login = async (ctx) => {
 
 //注册
 const Reg = async (ctx) => {
-    let matronName = ctx.request.headers.username
-    let matronNow = await matron.findMatron(matronName)
     let user = new matron.matron({
         username: ctx.request.body.username,
         password: sha1(ctx.request.body.password), //加密
@@ -110,7 +109,7 @@ const Reg = async (ctx) => {
         isworking: ctx.request.body.isworking,
         hometown: ctx.request.body.hometown,
         personalinfo: ctx.request.body.personalinfo,
-        imageurl: ctx.request.body.imageurl
+        imageurl: ctx.request.file.filename
     });
     console.log(user)
     //将objectid转换为用户创建时间(可以不用)
