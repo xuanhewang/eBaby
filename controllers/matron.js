@@ -96,20 +96,20 @@ const Login = async (ctx) => {
 //注册
 const Reg = async (ctx) => {
     let user = new matron.matron({
-        username: ctx.request.body.username,
-        password: sha1(ctx.request.body.password), //加密
+        username: ctx.req.body.username,
+        password: sha1(ctx.req.body.password), //加密
         token: createToken(this.username),
-        name: ctx.request.body.name,
-        age: ctx.request.body.age,
-        mobile: ctx.request.body.mobile,
-        experience: ctx.request.body.experience,
-        price: ctx.request.body.price,
-        specialty: ctx.request.body.specialty,
-        sex: ctx.request.body.sex,
-        isworking: ctx.request.body.isworking,
-        hometown: ctx.request.body.hometown,
-        personalinfo: ctx.request.body.personalinfo,
-        imageurl: ctx.request.file.filename
+        name: ctx.req.body.name,
+        age: ctx.req.body.age,
+        mobile: ctx.req.body.mobile,
+        experience: ctx.req.body.experience,
+        price: ctx.req.body.price,
+        specialty: ctx.req.body.specialty,
+        sex: ctx.req.body.sex,
+        isworking: ctx.req.body.isworking,
+        hometown: ctx.req.body.hometown,
+        personalinfo: ctx.req.body.personalinfo,
+        imageurl: ctx.req.file.filename
     });
     console.log(user)
     //将objectid转换为用户创建时间(可以不用)
