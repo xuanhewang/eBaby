@@ -118,9 +118,14 @@ const Reg = async (ctx) => {
     let doc = await matron.findMatron(user.username);
     if (doc) {
         console.log('用户名已经存在');
+        fs.unlink(`public/images/${ctx.req.file.filename}`, function (err) {
+            if (err) return console.log(err);
+            console.log('文件删除成功');
+        })
         ctx.status = 200;
         ctx.body = {
-            status: 200,
+            status: 406,
+            msg: '用户名已经存在',
             success: false
         };
     } else {
