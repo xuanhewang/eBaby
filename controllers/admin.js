@@ -51,6 +51,26 @@ const delAdmin = async (ctx, next) => {
     }
 }
 
+const findAdmin = async (ctx, next) => {
+    let username = ctx.request.body.username
+    try{
+        let doc = await admin.findAdmin(username)
+        ctx.status = 200
+        ctx.body = {
+            msg: 'success',
+            success: true,
+            data: doc
+        }
+    } catch (err) {
+        ctx.status = 200
+        ctx.body = {
+            msg: 'failed',
+            success: false,
+            data: []
+        }
+    }
+}
+
 const Login = async (ctx) => {
     //拿到账号和密码
     let username = ctx.request.body.username;
@@ -143,6 +163,7 @@ const Reg = async (ctx) => {
 
 module.exports = {
     findAllAdmin,
+    findAdmin,
     delAdmin,
     Login,
     Reg

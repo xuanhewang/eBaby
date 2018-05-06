@@ -27,26 +27,65 @@ const findAllMatron = async (ctx, next) => {
     }
 };
 
+const findMatron = async (ctx, next) => {
+    let username = ctx.request.body.username
+    try{
+        let doc = await admin.findMatron(username)
+        ctx.status = 200
+        ctx.body = {
+            msg: 'success',
+            success: true,
+            data: doc
+        }
+    } catch (err) {
+        ctx.status = 200
+        ctx.body = {
+            msg: 'failed',
+            success: false,
+            data: []
+        }
+    }
+}
+
 const delMatron = async (ctx, next) => {
     // let id = ObjectId(ctx.request.body.id)
-    let matronName = ctx.request.headers.username
+    // let matronName = ctx.request.headers.username
     let id = ctx.request.body.id
-    // let matronNow = await matron.findMatron(matronName)
-    // let matronInfo = await matron.findMatronById(id)
-    try {
-        for (let i in id) {
-            await matron.delMatron(id[i])
-        }
+    let doc = await matron.matron.findOneAndRemove({_id: id})
+    if (doc) {
+        ctx.status = 200;
         ctx.body = {
             success: true,
             msg: '删除成功'
         }
-    } catch (err) {
-        ctx.body = {
-            success: false,
-            msg: '删除失败'
-        }
     }
+
+    // for (let i in id) {
+    //     try {
+    //         let doc = await matron.matron.findOneAndRemove({_id: id[i]})
+    //         if (doc) {
+    //             ctx.status = 200;
+    //             ctx.body = {
+    //                 success: true,
+    //                 msg: '删除成功'
+    //             }
+    //         } else {
+    //             ctx.status = 200;
+    //             ctx.body = {
+    //                 success: false,
+    //                 msg: '删除失败'
+    //             }
+    //         }
+    //     } catch (err) {
+    //         ctx.status = 200;
+    //         ctx.body = {
+    //             success: false,
+    //             msg: '删除失败'
+    //         }
+    //     }
+    // }
+
+
 }
 
 const Login = async (ctx) => {
@@ -205,6 +244,7 @@ const spider = async (ctx) => {
 
 module.exports = {
     findAllMatron,
+    findMatron,
     delMatron,
     Login,
     Reg,

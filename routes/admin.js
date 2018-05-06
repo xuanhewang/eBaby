@@ -6,6 +6,7 @@ const adminController = require('../controllers/admin');
 router.prefix('/admin');
 
 router.post('/findAllAdmin',adminController.findAllAdmin);
+router.post('/findAdmin',adminController.findAdmin);
 // router.post('/findAdmin',adminController.findAdmin);
 router.post('/delAdmin',checkSuperAdmin,adminController.delAdmin);
 

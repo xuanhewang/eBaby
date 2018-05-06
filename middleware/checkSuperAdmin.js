@@ -3,6 +3,7 @@ const admin = require('../models/admin');
 module.exports = async (ctx, next) => {
     let username = ctx.request.headers.username
     let doc = await admin.findAdmin(username)
+    console.log(doc)
     if (doc && doc.isSuper){
         next()
     } else {

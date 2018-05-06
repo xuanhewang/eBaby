@@ -15,6 +15,26 @@ const findAllUser = async (ctx, next) => {
 	ctx.body = allUsers
 };
 
+const findUser = async (ctx, next) => {
+    let username = ctx.request.body.username
+    try{
+        let doc = await admin.findUser(username)
+        ctx.status = 200
+        ctx.body = {
+            msg: 'success',
+            success: true,
+            data: doc
+        }
+    } catch (err) {
+        ctx.status = 200
+        ctx.body = {
+            msg: 'failed',
+            success: false,
+            data: []
+        }
+    }
+}
+
 const Login = async ( ctx ) => {
     //拿到账号和密码
     let username = ctx.request.body.username;
@@ -99,6 +119,7 @@ const Reg = async ( ctx ) => {
 
 module.exports = {
 	findAllUser,
+    findUser,
 	Login,
 	Reg
 };
