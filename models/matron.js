@@ -9,20 +9,14 @@ const createToken = require('../middleware/createToken.js');
 
 //根据用户名查找用户
 const findMatron = (username) => {
-    return new Promise((resolve, reject) => {
-        matron.findOne({ username }, (err, doc) => {
-            if(err){
-                reject(err);
-            }
-            resolve(doc);
-        });
-    });
+    console.log(username);
+    return matron.findOne({name: username});
 };
 
 const findMatronById = (id) => {
     return new Promise((resolve, reject) => {
-        matron.findOne({ _id: id }, (err, doc) => {
-            if(err){
+        matron.findOne({_id: id}, (err, doc) => {
+            if (err) {
                 reject(err);
             }
             resolve(doc);
@@ -30,7 +24,7 @@ const findMatronById = (id) => {
     });
 };
 
-const findAllMatron = (pageNum, pageSize)=>{
+const findAllMatron = (pageNum, pageSize) => {
     return new Promise((resolve, reject) => {
         matron.find({}, (err, doc) => {
             if (err) {
@@ -41,10 +35,10 @@ const findAllMatron = (pageNum, pageSize)=>{
     });
 };
 
-const delMatron = function(id){
-    return new Promise(( resolve, reject) => {
-        matron.findOneAndRemove({ _id: id }, err => {
-            if(err){
+const delMatron = function (id) {
+    return new Promise((resolve, reject) => {
+        matron.findOneAndRemove({_id: id}, err => {
+            if (err) {
                 reject(err);
             }
             console.log('删除用户成功');

@@ -30,7 +30,7 @@ const findAllMatron = async (ctx, next) => {
 const findMatron = async (ctx, next) => {
     let username = ctx.request.body.username
     try{
-        let doc = await admin.findMatron(username)
+        let doc = await matron.findMatron(username)
         ctx.status = 200
         ctx.body = {
             msg: 'success',
