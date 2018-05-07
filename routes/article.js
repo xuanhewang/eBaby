@@ -5,12 +5,11 @@ const articleController = require('../controllers/article');
 
 router.prefix('/article');
 
-// router.post('/findAllArticle',articleController.findAllArticle);
+router.post('/findAllArticle',articleController.findAllArticle);
 // router.post('/findArticle',articleController.findArticle);
 
-router.post('/articleSpider', articleController.articleSpider);
+// router.post('/articleSpider', articleController.articleSpider);
 
-// router.post('/findAdmin',adminController.findAdmin);
 
 // router.post('/delArticle',checkSuperAdmin,articleController.delArticle);
 

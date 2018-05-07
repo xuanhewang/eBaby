@@ -2,6 +2,21 @@ const article = require('../models/article')
 const request = require('request')
 const cheerio = require('cheerio')
 
+const findAllArticle = async (ctx, next) => {
+    let count = await article.article.count()
+    let pageNum = parseInt(ctx.request.body.pageNum) - 1
+    let pageSize = parseInt(ctx.request.body.pageSize)
+    let artTitle = ctx.request.body.artTitle
+    let artCategory = ctx.request.body.artCategory
+    let allAdmin = await article.findAllArticle(pageNum, pageSize, artTitle, artCategory);
+    ctx.body = {
+        success: true,
+        data: {
+            count: count,
+            data: allAdmin
+        }
+    }
+};
 
 const articleSpider = async (ctx, next) => {
 
@@ -30,7 +45,7 @@ const articleSpider = async (ctx, next) => {
                 let user = new article.article({
                     art_title: art_title,
                     art_des: art_des,
-                    art_title_im: art_title_img,
+                    art_title_img: art_title_img,
                     // art_creator: art_creator,
                     art_category: art_category,
                     // art_update_time: art_update_time,
@@ -38,7 +53,7 @@ const articleSpider = async (ctx, next) => {
                 console.log(art_content_href)
                 request(art_content_href, function (err, res, body) {
                     const $ = cheerio.load(body)
-                    art_content = $('.global-detail-content').text().trim()
+                    art_content = $('.global-detail-content').html().trim()
                     user.art_content = art_content
                     user.save()
                 })
@@ -53,5 +68,6 @@ const articleSpider = async (ctx, next) => {
 }
 
 module.exports = {
+    findAllArticle,
     articleSpider
 }
