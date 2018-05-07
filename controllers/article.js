@@ -18,17 +18,63 @@ const findAllArticle = async (ctx, next) => {
     }
 };
 
+const addArticle = async (ctx, next) => {
+    let art_title = ctx.request.body.artTitle
+    let art_des = ctx.request.body.artDes
+    let art_content = ctx.request.body.artContent
+    // let art_title_img = ctx.request.body.artTitle,
+    let art_category = ctx.request.body.artCategory
+    let art_creator = ctx.request.headers.username
+    let user = new article.article({
+        art_title: art_title,
+        art_des: art_des,
+        // art_title_img: art_title_img,
+        art_creator: art_creator,
+        art_category: art_category,
+        // art_update_time: art_update_time,
+    })
+    try {
+        user.save()
+        ctx.status = 200
+        ctx.body = {
+            success: true,
+            msg: '添加成功'
+        }
+    } catch (err) {
+        console.log(err)
+        ctx.status = 200
+        ctx.body = {
+            success: false,
+            msg: '添加失败'
+        }
+    }
+}
+
+const updateArticle = async (ctx, next) => {
+    let id = ctx.request.body.id
+    let art_title = ctx.request.body.artTitle
+    let art_des = ctx.request.body.artDes
+    let art_content = ctx.request.body.artContent
+    // let art_title_img = ctx.request.body.artTitle,
+    let art_category = ctx.request.body.artCategory
+    let doc = await article.updateArticle(id, art_title, art_des, art_content, art_category)
+}
+
+const delArticle = async (ctx, next) => {
+
+}
+
 const articleSpider = async (ctx, next) => {
 
     let pageNum = 1
-    function spider (pageNum) {
+
+    function spider(pageNum) {
         let baseUrl = 'http://www.youfumama.com'
 
         request(`${baseUrl}/tips/type/28/${pageNum}`, function (err, res, body) {
-            if(err) {
+            if (err) {
                 return false
             }
-
             console.log(`正在爬取${pageNum}页数据`);
             const $ = cheerio.load(body)
             let articleList = $('.article-list')
@@ -64,10 +110,14 @@ const articleSpider = async (ctx, next) => {
             spider(pageNum)
         }, 1000)
     }
+
     spider(pageNum)
 }
 
 module.exports = {
     findAllArticle,
+    addArticle,
+    delArticle,
+    updateArticle,
     articleSpider
 }

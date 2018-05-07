@@ -6,7 +6,8 @@ const articleController = require('../controllers/article');
 router.prefix('/article');
 
 router.post('/findAllArticle',articleController.findAllArticle);
-// router.post('/findArticle',articleController.findArticle);
+router.post('/addArticle',articleController.addArticle);
+router.post('/updateArticle',articleController.addArticle);
 
 // router.post('/articleSpider', articleController.articleSpider);
 
