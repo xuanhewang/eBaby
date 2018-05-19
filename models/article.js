@@ -50,6 +50,10 @@ const findAllArticle = (pageNum, pageSize, artTitle, artCategory) => {
 
 };
 
+const updateArticle = () => {
+
+}
+
 const delArticle = function (id) {
     return new Promise((resolve, reject) => {
         article.findOneAndRemove({_id: id}, err => {

@@ -19,11 +19,12 @@ const findAllArticle = async (ctx, next) => {
 };
 
 const addArticle = async (ctx, next) => {
-    let art_title = ctx.request.body.artTitle
-    let art_des = ctx.request.body.artDes
-    let art_content = ctx.request.body.artContent
+    console.log(ctx.request.body.artInfo)
+    let art_title = ctx.request.body.artInfo.articleTitle
+    let art_des = ctx.request.body.artInfo.articleDes
+    let art_content = ctx.request.body.artInfo.articleContent
     // let art_title_img = ctx.request.body.artTitle,
-    let art_category = ctx.request.body.artCategory
+    let art_category = ctx.request.body.artInfo.articleTagSelected
     let art_creator = ctx.request.headers.username
     let user = new article.article({
         art_title: art_title,

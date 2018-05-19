@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const articleSchema = mongoose.Schema({
     art_title: String,
     art_des: String,
-    art_title_img: String,
+    art_title_img: {
+        type: String,
+        default: 'title_img.jpg'
+    },
     art_content: String,
     art_creator: {
         type: String,
