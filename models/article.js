@@ -50,25 +50,20 @@ const findAllArticle = (pageNum, pageSize, artTitle, artCategory) => {
 
 };
 
-const updateArticle = () => {
-
+const updateArticle = (id, art_title, art_des, art_content, art_category) => {
+    return article.findOneAndUpdate({_id: id}, {
+        art_title: art_title, art_des: art_des, art_content: art_content, art_category: art_category
+    })
 }
 
 const delArticle = function (id) {
-    return new Promise((resolve, reject) => {
-        article.findOneAndRemove({_id: id}, err => {
-            if (err) {
-                reject(err);
-            }
-            console.log('删除用户成功');
-            resolve(reject);
-        });
-    });
+    return article.findOneAndRemove({_id: id});
 };
 
 module.exports = {
     article,
     findAllArticle,
+    updateArticle,
     findArticle,
     delArticle,
     findArticleById

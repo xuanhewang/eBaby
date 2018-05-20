@@ -29,6 +29,7 @@ const delAdmin = async (ctx, next) => {
     let id = ctx.request.body.id
     let adminInfo = await admin.findAdminById(id)
     if (adminInfo.isSuper) {
+        ctx.status = 200
         ctx.body = {
             success: false,
             msg: '超级管理员无法删除'

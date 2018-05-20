@@ -47,10 +47,50 @@ const findMatron = async (ctx, next) => {
     }
 }
 
+const updateMatron = async(ctx, next) => {
+    let id = ctx.request.body.upMatron._id
+    console.log(id);
+    console.log( ctx.request.body.upMatron.name,);
+    let doc = await matron.matron.findOneAndUpdate({_id: id},{
+        // username: ctx.req.body.username,
+        // password: sha1(ctx.req.body.password), //加密
+        // token: createToken(this.username),
+        name: ctx.request.body.upMatron.name,
+        age: ctx.request.body.upMatron.age,
+        mobile: ctx.request.body.upMatron.mobile,
+        experience: ctx.request.body.upMatron.experience,
+        price: ctx.request.body.upMatron.price,
+        specialty: ctx.request.body.upMatron.specialty,
+        sex: ctx.request.body.upMatron.sex,
+        isworking: ctx.request.body.upMatron.isworking,
+        hometown: ctx.request.body.upMatron.hometown,
+        personalinfo: ctx.request.body.upMatron.personalinfo,
+        // imageurl: ctx.req.file.filename
+    })
+    if(doc) {
+        ctx.status = 200;
+        ctx.body = {
+            msg: '修改成功',
+            success: true
+        }
+    } else {
+        ctx.status = 201;
+        ctx.body = {
+            msg: '修改失败',
+            success: false
+        }
+    }
+}
+
 const delMatron = async (ctx, next) => {
     // let id = ObjectId(ctx.request.body.id)
     // let matronName = ctx.request.headers.username
     let id = ctx.request.body.id
+    ctx.status = 200
+    ctx.body = {
+        success: true,
+        msg: '删除成功'
+    }
     let doc = await matron.matron.findOneAndRemove({_id: id})
     if (doc) {
         ctx.status = 200;
@@ -245,6 +285,7 @@ const spider = async (ctx) => {
 module.exports = {
     findAllMatron,
     findMatron,
+    updateMatron,
     delMatron,
     Login,
     Reg,

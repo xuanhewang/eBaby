@@ -18,7 +18,10 @@ const matronSchema = mongoose.Schema({
     },
     hometown: String,
     personalinfo: String,
-    imageurl: String
+    imageurl: {
+        type: String,
+        default: 'matron_img.jpg'
+    }
 });
 
 const matronModel = {

@@ -52,17 +52,43 @@ const addArticle = async (ctx, next) => {
 }
 
 const updateArticle = async (ctx, next) => {
-    let id = ctx.request.body.id
-    let art_title = ctx.request.body.artTitle
-    let art_des = ctx.request.body.artDes
-    let art_content = ctx.request.body.artContent
+    let id = ctx.request.body.artInfo._id
+    let art_title = ctx.request.body.artInfo.art_title || ''
+    let art_des = ctx.request.body.artInfo.art_des || ''
+    let art_content = ctx.request.body.artInfo.art_content || ''
     // let art_title_img = ctx.request.body.artTitle,
-    let art_category = ctx.request.body.artCategory
+    let art_category = ctx.request.body.artInfo.art_category || ''
     let doc = await article.updateArticle(id, art_title, art_des, art_content, art_category)
+    if(doc){
+        ctx.body = {
+            success: true,
+            message: "更新成功"
+        }
+    }
 }
 
 const delArticle = async (ctx, next) => {
-
+    let id = ctx.request.body.id
+    // console.log(id)
+    ctx.status = 200
+    ctx.body = {
+        success: true,
+        msg: '删除成功'
+    }
+    let doc = await article.delArticle(id)
+    if(doc) {
+        ctx.status = 200
+        ctx.body = {
+            success: true,
+            msg: '删除成功'
+        }
+    } else {
+        ctx.status = 201
+        ctx.body = {
+            success: false,
+            msg: '删除失败'
+        }
+    }
 }
 
 const articleSpider = async (ctx, next) => {

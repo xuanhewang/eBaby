@@ -7,12 +7,12 @@ router.prefix('/article');
 
 router.post('/findAllArticle',articleController.findAllArticle);
 router.post('/addArticle',articleController.addArticle);
-router.post('/updateArticle',articleController.addArticle);
+router.post('/updateArticle',articleController.updateArticle);
 
 // router.post('/articleSpider', articleController.articleSpider);
 
 
-// router.post('/delArticle',checkSuperAdmin,articleController.delArticle);
+router.post('/delArticle',checkSuperAdmin,articleController.delArticle);
 
 // router.post('/login', articleController.Login)
 // router.post('/register', articleController.Reg)

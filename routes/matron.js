@@ -10,6 +10,7 @@ router.prefix('/matron');
 //
 router.post('/findAllMatron', matronController.findAllMatron);
 router.post('/findMatron', matronController.findMatron);
+router.post('/updateMatron', matronController.updateMatron);
 router.post('/delMatron', checkSuperAdmin, matronController.delMatron);
 // router.post('/updateMatron',matronController.updateMatron);
 // router.post('/spider', matronController.spider);

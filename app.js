@@ -14,6 +14,7 @@ const users = require('./routes/users')
 const admin = require('./routes/admin')
 const matron = require('./routes/matron')
 const article = require('./routes/article')
+const overview = require('./routes/overview')
 
 // error handler
 onerror(app)
@@ -55,6 +56,7 @@ app.use(users.routes(), users.allowedMethods())
 app.use(admin.routes(), admin.allowedMethods())
 app.use(matron.routes(), matron.allowedMethods())
 app.use(article.routes(), article.allowedMethods())
+app.use(overview.routes(), overview.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
