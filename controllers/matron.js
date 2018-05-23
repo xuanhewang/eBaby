@@ -47,6 +47,26 @@ const findMatron = async (ctx, next) => {
     }
 }
 
+const findMatronByCity = async (ctx, next) => {
+    let city = ctx.request.body.city
+    try{
+        let doc = await matron.findMatronByCity(city)
+        ctx.status = 200
+        ctx.body = {
+            msg: 'success',
+            success: true,
+            data: doc
+        }
+    } catch (err) {
+        ctx.status = 200
+        ctx.body = {
+            msg: 'failed',
+            success: false,
+            data: []
+        }
+    }
+}
+
 const updateMatron = async(ctx, next) => {
     let id = ctx.request.body.upMatron._id
     console.log(id);
@@ -134,6 +154,7 @@ const Login = async (ctx) => {
     let password = sha1(ctx.request.body.password);
 
     let doc = await matron.findMatron(username);
+    console.log(doc)
     if (!doc) {
         console.log('检查到用户名不存在');
         ctx.status = 200;
@@ -285,6 +306,7 @@ const spider = async (ctx) => {
 module.exports = {
     findAllMatron,
     findMatron,
+    findMatronByCity,
     updateMatron,
     delMatron,
     Login,

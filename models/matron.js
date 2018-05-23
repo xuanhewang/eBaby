@@ -10,7 +10,12 @@ const createToken = require('../middleware/createToken.js');
 //根据用户名查找用户
 const findMatron = (username) => {
     console.log(username);
-    return matron.findOne({name: username});
+    return matron.findOne({username: username});
+};
+
+const findMatronByCity = (city) => {
+    console.log(city);
+    return matron.find({hometown: city});
 };
 
 const findMatronById = (id) => {
@@ -51,6 +56,7 @@ module.exports = {
     matron,
     findAllMatron,
     findMatron,
+    findMatronByCity,
     delMatron,
     findMatronById
 };

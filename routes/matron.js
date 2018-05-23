@@ -10,6 +10,7 @@ router.prefix('/matron');
 //
 router.post('/findAllMatron', matronController.findAllMatron);
 router.post('/findMatron', matronController.findMatron);
+router.post('/findMatronByCity', matronController.findMatronByCity);
 router.post('/updateMatron', matronController.updateMatron);
 router.post('/delMatron', checkSuperAdmin, matronController.delMatron);
 // router.post('/updateMatron',matronController.updateMatron);
@@ -17,6 +18,7 @@ router.post('/delMatron', checkSuperAdmin, matronController.delMatron);
 
 router.post('/login', matronController.Login)
 router.post('/register', upload.single('file'), matronController.Reg)
+router.post('/matronReg', matronController.Reg)
 
 router.get('/', function (ctx, next) {
     ctx.body = 'this is a admin/bar response'
