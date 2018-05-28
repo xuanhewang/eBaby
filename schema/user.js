@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const userSchema = mongoose.Schema({
     username: String,
     password: String,
+    imageurl: String,
     token: String,
     create_time: Date
 });

@@ -18,15 +18,15 @@ const findUser = (username) => {
         });
     });
 };
-const findAllUser = ()=>{
-	return new Promise((resolve, reject) => {
-		user.find({}, (err, doc) => {
-			if (err) {
-				reject(err);
-			}
-			resolve(doc);
-		});
-	});
+const findAllUser = (pageNum, pageSize) => {
+    return new Promise((resolve, reject) => {
+        user.find({}, (err, doc) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(doc);
+        }).skip(pageNum * pageSize).limit(pageSize);
+    });
 };
 
 module.exports = {

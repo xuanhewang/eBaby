@@ -1,12 +1,13 @@
 const router = require('koa-router')();
 const checkSuperAdmin = require('../middleware/checkSuperAdmin')
-const orderController = require('../controllers/order');
+const checkController = require('../controllers/check');
 
 router.prefix('/check');
 
-router.post('/userOrder', orderController.userOrder);
-router.post('/findNewMatronOrder', orderController.findNewMatronOrder);
-router.post('/findAllMatronOrder', orderController.findAllMatronOrder);
+router.post('/submitCheck', checkController.submitCheck);
+router.post('/confirmCheck', checkController.confirmCheck);
+router.post('/matronSubmitCheck', checkController.matronSubmitCheck);
+router.post('/allConfirmCheck', checkController.allConfirmCheck);
 
 
 router.get('/bar', function (ctx, next) {

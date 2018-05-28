@@ -10,9 +10,20 @@ const sha1 = require('sha1');
 const createToken = require('../middleware/createToken.js');
 
 const findAllUser = async (ctx, next) => {
-	let allUsers = await User.findAllUser();
-	console.log(allUsers)
-	ctx.body = allUsers
+    console.log(ctx)
+    let count = await User.user.count()
+    console.log(count)
+    let pageNum = parseInt(ctx.request.body.pageNum) - 1
+    let pageSize = parseInt(ctx.request.body.pageSize)
+    let allUser = await User.findAllUser(pageNum, pageSize);
+    console.log(allUser)
+    ctx.body = {
+        success: true,
+        data: {
+            count: count,
+            data: allUser
+        }
+    }
 };
 
 const findUser = async (ctx, next) => {
@@ -85,6 +96,7 @@ const Reg = async ( ctx ) => {
     let user = new User.user({
         username: ctx.request.body.username,
         password: sha1(ctx.request.body.password), //加密
+        imgurl: ctx.request.body.imgurl,
         token: createToken(this.username) //创建token并存入数据库
     });
     console.log(user)

@@ -8,53 +8,16 @@ const sha1 = require('sha1');
 const createToken = require('../middleware/createToken.js');
 
 //根据用户名查找用户
-const userOrder = (user, matron, money, user_address, step, create_time, user_msg) => {
-    let createorder = new order({
-        user: user,
-        matron: matron,
-        money: money,
-        user_address: user_address,
-        step: step,
-        create_time: create_time,
-        user_msg: user_msg
-    })
-    return createorder.save()
+const submitCheck = (username, name, imageUrlCheck, create_time) => {
+    return new check({
+        username:username,
+        name:name,
+        imageUrlCheck:imageUrlCheck,
+        create_time:create_time
+    }).save()
 }
 
-const findAllMatronOrder = (username) => {
-    return order.find({matron: username})
-};
-
-const findNewMatronOrder = (matron) => {
-    return order.find({matron: matron, finished: false})
-};
-
-const findAllAdmin = (pageNum, pageSize) => {
-    return new Promise((resolve, reject) => {
-        admin.find({}, (err, doc) => {
-            if (err) {
-                reject(err);
-            }
-            resolve(doc);
-        }).skip(pageNum * pageSize).limit(pageSize);
-    });
-};
-
-const delAdmin = function (id) {
-    return new Promise((resolve, reject) => {
-        admin.findOneAndRemove({_id: id}, err => {
-            if (err) {
-                reject(err);
-            }
-            console.log('删除用户成功');
-            resolve(reject);
-        });
-    });
-};
-
 module.exports = {
-    order,
-    userOrder,
-    findAllMatronOrder,
-    findNewMatronOrder
+    check,
+    submitCheck
 };

@@ -2,7 +2,7 @@
  * Created by wang on 17/12/23.
  */
 // const ObjectId = require('mongodb').ObjectId;
-const order = require('../models/order');
+const check = require('../models/check');
 
 const moment = require('moment');
 const objectIdToTimestamp = require('objectid-to-timestamp');
@@ -11,24 +11,47 @@ const sha1 = require('sha1');
 //createToken
 const createToken = require('../middleware/createToken.js');
 
-const userOrder = async (ctx, next) => {
-    let user = ctx.request.headers.username
-    let matron = ctx.request.body.matron
-    let money = ctx.request.body.money
-    let user_address = ctx.request.body.user_address
-    let step = 1
+const submitCheck = async (ctx, next) => {
+    let username = ctx.request.headers.username
+    let name = ctx.request.body.name
+    let imageUrlCheck = ctx.request.body.imageUrlCheck
     let create_time = new Date()
-    let user_msg = ctx.request.body.userMsg
+    let hadSubmit = await check.check.find({username: username})
+    console.log(hadSubmit)
+    if (hadSubmit.length > 0){
+        ctx.body = {
+            success: false,
+            msg: '您已经提交过申请，请勿重复提交'
+        }
+    } else {
+        let doc = await check.submitCheck(username, name, imageUrlCheck, create_time)
+        console.log(doc)
+        ctx.body = {
+            success: true,
+            msg: '提交申请成功'
+        }
+    }
+
+}
+
+const confirmCheck = async (ctx, next) => {
+    let id = ctx.request.body._id
+    let isChecked = parseInt(ctx.request.body.isChecked)
+    let checker = ctx.request.headers.username
+    let check_time = new Date()
+    let doc = await check.check.findOneAndUpdate({_id: id}, {
+        isChecked: isChecked,
+        checker: checker,
+        check_time: check_time
+    })
     ctx.body = {
         success: true,
-        msg: '预定成功，等待月嫂回应'
+        msg: '审批成功'
     }
-    let doc = await order.userOrder(user, matron, money, user_address, step, create_time, user_msg)
 }
 
-const findAllMatronOrder = async (ctx, next) => {
-    let matron = ctx.request.headers.username
-    let doc = await order.findAllMatronOrder(matron)
+const allConfirmCheck = async (ctx, next) => {
+    let doc = await check.check.find({})
     if (doc) {
         ctx.body = {
             success: true,
@@ -42,9 +65,9 @@ const findAllMatronOrder = async (ctx, next) => {
     }
 }
 
-const findNewMatronOrder = async (ctx, next) => {
-    let matron = ctx.request.headers.username
-    let doc = await order.findNewMatronOrder(matron)
+const matronSubmitCheck = async (ctx, next) => {
+    let username = ctx.request.headers.username
+    let doc = await check.check.find({username: username})
     if (doc) {
         ctx.body = {
             success: true,
@@ -57,9 +80,11 @@ const findNewMatronOrder = async (ctx, next) => {
         }
     }
 }
+
 
 module.exports = {
-    userOrder,
-    findNewMatronOrder,
-    findAllMatronOrder
+    submitCheck,
+    confirmCheck,
+    matronSubmitCheck,
+    allConfirmCheck
 };

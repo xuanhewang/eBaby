@@ -4,8 +4,8 @@ const checkSchema = mongoose.Schema({
     username: String,
     name: String,
     isChecked: {
-        type: Boolean,
-        default: false
+        type: Number,
+        default: 0
     },
     imageUrlCheck: String,
     create_time: {
@@ -13,13 +13,9 @@ const checkSchema = mongoose.Schema({
         default: new Date()
     },
     checker: {
-        type: String,
-        default: 'admin'
+        type: String
     },
-    check_time: {
-        type: Date,
-        default: new Date()
-    }
+    check_time: Date
 });
 
 const checkModel = {
