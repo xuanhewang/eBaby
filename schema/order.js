@@ -9,6 +9,8 @@ const orderSchema = mongoose.Schema({
         default: new Date()
     },
     back_time: Date,
+    money: Number,
+    user_address: String,
     user_msg: String,
     matron_msg: String,
     matron_status: {
@@ -27,4 +29,4 @@ const orderModel = {
     order: mongoose.model('order', orderSchema)
 };
 
-module.exports = orderModel.order;
+module.exports = orderModel;

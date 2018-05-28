@@ -18,6 +18,29 @@ const findAllArticle = async (ctx, next) => {
     }
 };
 
+const findArticleByName = async (ctx, next) => {
+    let count = await article.article.count()
+    let pageNum = parseInt(ctx.request.body.pageNum) - 1
+    let pageSize = parseInt(ctx.request.body.pageSize)
+    let username = ctx.request.headers.username
+    let doc = await article.article.find({
+        art_creator: username
+    }).skip(pageNum * pageSize).limit(pageSize)
+    ctx.body = {
+        success: true,
+        data: {
+            count: count,
+            data: doc
+        }
+    }
+    ctx.body = {
+        success: true,
+        data: {
+            data: doc
+        }
+    }
+};
+
 const addArticle = async (ctx, next) => {
     console.log(ctx.request.body.artInfo)
     let art_title = ctx.request.body.artInfo.articleTitle
@@ -59,7 +82,7 @@ const updateArticle = async (ctx, next) => {
     // let art_title_img = ctx.request.body.artTitle,
     let art_category = ctx.request.body.artInfo.art_category || ''
     let doc = await article.updateArticle(id, art_title, art_des, art_content, art_category)
-    if(doc){
+    if (doc) {
         ctx.body = {
             success: true,
             message: "更新成功"
@@ -76,7 +99,7 @@ const delArticle = async (ctx, next) => {
         msg: '删除成功'
     }
     let doc = await article.delArticle(id)
-    if(doc) {
+    if (doc) {
         ctx.status = 200
         ctx.body = {
             success: true,
@@ -143,6 +166,7 @@ const articleSpider = async (ctx, next) => {
 
 module.exports = {
     findAllArticle,
+    findArticleByName,
     addArticle,
     delArticle,
     updateArticle,

@@ -4,7 +4,10 @@ const matronSchema = mongoose.Schema({
     username: String,
     password: String,
     token: String,
-    create_time: Date,
+    create_time: {
+        type: Date,
+        default: new Date()
+    },
     name: String,
     age: String,
     mobile: String,

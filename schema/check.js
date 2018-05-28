@@ -2,16 +2,24 @@ const mongoose = require('mongoose');
 
 const checkSchema = mongoose.Schema({
     username: String,
-    create_time: {
-        type: Date,
-        default: new Date()
-    },
     name: String,
     isChecked: {
         type: Boolean,
         default: false
     },
-    imageUrlCheck: String
+    imageUrlCheck: String,
+    create_time: {
+        type: Date,
+        default: new Date()
+    },
+    checker: {
+        type: String,
+        default: 'admin'
+    },
+    check_time: {
+        type: Date,
+        default: new Date()
+    }
 });
 
 const checkModel = {

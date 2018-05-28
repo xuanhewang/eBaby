@@ -15,6 +15,8 @@ const admin = require('./routes/admin')
 const matron = require('./routes/matron')
 const article = require('./routes/article')
 const overview = require('./routes/overview')
+const order = require('./routes/order')
+const check = require('./routes/check')
 
 // error handler
 onerror(app)
@@ -57,6 +59,8 @@ app.use(admin.routes(), admin.allowedMethods())
 app.use(matron.routes(), matron.allowedMethods())
 app.use(article.routes(), article.allowedMethods())
 app.use(overview.routes(), overview.allowedMethods())
+app.use(order.routes(), order.allowedMethods())
+app.use(check.routes(), check.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

@@ -209,7 +209,7 @@ const Reg = async (ctx) => {
         isworking: ctx.req.body.isworking,
         hometown: ctx.req.body.hometown,
         personalinfo: ctx.req.body.personalinfo,
-        imageurl: ctx.req.file.filename
+        imageurl: ctx.req.body.filename
     });
     console.log(user)
     //将objectid转换为用户创建时间(可以不用)

@@ -3,6 +3,8 @@ const userModel = require('../schema/user')
 const adminModel = require('../schema/admin').admin
 const matronModel = require('../schema/matron').matron
 const articleModel = require('../schema/article').article
+const orderModel = require('../schema/order').order
+const checkModel = require('../schema/check').check
 mongoose.connect('mongodb://106.15.92.48:27017/Baby');
 
 const db = mongoose.connection;
@@ -23,6 +25,8 @@ module.exports = {
     adminModel,
     matronModel,
     articleModel,
+    orderModel,
+    checkModel
 };
 
 
