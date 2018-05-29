@@ -79,10 +79,35 @@ const backOrder = async (ctx, next) => {
     }
 }
 
-// const findAllUserOrder = async ()
+const findAllUserOrder = async (ctx, next) => {
+    let username = ctx.request.headers.username
+    let doc = await order.order.find({user: username})
+    ctx.body = {
+        success: true,
+        data: doc
+    }
+}
+
+const finishAndAssess = async (ctx, next) => {
+    let id = ctx.request.body._id
+    let finished = true
+    let user_assess = userAssess
+    let user_assess_level = parseInt(userAssessLevel)
+    let doc = await order.order.findOneAndUpdate({_id: id}, {
+        finished: finished,
+        user_assess: user_assess,
+        user_assess_level: user_assess_level
+    })
+    ctx.body = {
+        success: true,
+        mag: '服务评价完成'
+    }
+}
 module.exports = {
     userOrder,
     findNewMatronOrder,
     findAllMatronOrder,
-    backOrder
+    backOrder,
+    findAllUserOrder,
+    finishAndAssess
 };

@@ -52,6 +52,7 @@ const addArticle = async (ctx, next) => {
     let user = new article.article({
         art_title: art_title,
         art_des: art_des,
+        art_content: art_content,
         // art_title_img: art_title_img,
         art_creator: art_creator,
         art_category: art_category,

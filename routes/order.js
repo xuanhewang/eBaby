@@ -9,6 +9,8 @@ router.post('/userOrder', orderCheck, orderController.userOrder);
 router.post('/findNewMatronOrder', orderController.findNewMatronOrder);
 router.post('/findAllMatronOrder', orderController.findAllMatronOrder);
 router.post('/backOrder', orderController.backOrder);
+router.post('/findAllUserOrder', orderController.findAllUserOrder);
+router.post('/finishAndAssess', orderController.finishAndAssess);
 // router.post('/findArticleByName',orderController.findArticleByName);
 // router.post('/addArticle',orderController.addArticle);
 // router.post('/updateArticle',orderController.updateArticle);

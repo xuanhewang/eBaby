@@ -7,7 +7,7 @@ const sha1 = require('sha1');
 //createToken
 const createToken = require('../middleware/createToken.js');
 
-//根据用户名查找用户
+//根据用户名查找文章
 const findArticle = (username) => {
     return new Promise((resolve, reject) => {
         Article.findOne({username}, (err, doc) => {
